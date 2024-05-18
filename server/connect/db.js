@@ -6,8 +6,8 @@ const pool = new Pool({
   user: process.env.USERNAME,
   password: "",
   host: "localhost",
-  port: process.env.DBPORT,
-  database: process.env.DBNAME,
+  port: 8000,
+  database: "userauth",
 });
 
 module.exports = { pool };
