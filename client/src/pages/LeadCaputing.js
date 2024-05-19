@@ -1,6 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 
 const LeadCaputing = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
+  const [customError, setCustomError] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleNname = (e) => {
+    e.preventDefault();
+
+    console.log(e.target.value);
+    setName(() => e.target.value);
+  };
+
+  const handleEmail = (e) => {
+    e.preventDefault();
+
+    console.log(e.target.value);
+    setEmail(() => e.target.value);
+  };
+
+  const handlePhonenumber = (e) => {
+    e.preventDefault();
+    console.log(e.target.value);
+    setContact(() => e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!name || !email || !contact) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:8080/leads`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          contact,
+          date: new Date().toISOString().slice(0, 10),
+        }),
+      });
+
+      const { message } = await response.json();
+      if (response.ok && response.status === 200) {
+        setMessage(message);
+        setEmail("");
+        setContact("");
+        setName("");
+      }
+    } catch (error) {
+      setCustomError(error);
+    }
+  };
+
   return (
     <div className="flex justify-center items-center mt-[10px] h-[700px] w-screen items-center overflow-hidden px-2">
       <div className="h-[100%]">
@@ -21,6 +77,8 @@ const LeadCaputing = () => {
                 className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
                 type="text"
                 placeholder="Enter your name"
+                value={name}
+                onChange={(e) => handleNname(e)}
               />
             </label>
             <label className="block" htmlFor="name">
@@ -29,6 +87,8 @@ const LeadCaputing = () => {
                 className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
                 type="email"
                 placeholder="Enter your email"
+                value={email}
+                onChange={(e) => handleEmail(e)}
               />
             </label>
             <label className="block" htmlFor="name">
@@ -37,11 +97,21 @@ const LeadCaputing = () => {
                 className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
                 type="text"
                 placeholder="Enter your Phone number"
+                value={contact}
+                onChange={(e) => handlePhonenumber(e)}
               />
             </label>
-            <button className="mt-4 rounded-full bg-blue-800 px-10 py-2 font-semibold text-white">
+            <button
+              className="mt-4 rounded-full bg-blue-800 px-10 py-2 font-semibold text-white"
+              onClick={(e) => handleSubmit(e)}
+            >
               Submit
             </button>
+            {message && (
+              <p className="text-xl h-[40px] w-[100%] flex justify-center items-center rounded-md bg-green-300 text-green-700">
+                {message}
+              </p>
+            )}
           </div>
         </div>
       </div>

@@ -1,24 +1,16 @@
 const Lead = require("../model/LeadModel");
 
 const getAllLeads = async (request, response) => {
-  const { startDate, endDate } = request.query;
+  const { startDate } = request.query;
 
-  //   if (startDate) {
-  //     customQuery.startDate = new Date(startDate);
-  //   }
-  //   if (endDate) {
-  //     customQuery.endDate = new Date(endDate);
-  //   }
+  let customQuery = {};
 
-  //   console.log(customQuery);
-  //   if (customQuery.startDate > customQuery.endDate) {
-  //     return response.json({
-  //       message: "End Date can not be smaller than start data",
-  //     });
-  //   }
-  console.log(new Date(startDate).getUTCDate());
+  if (startDate) {
+    customQuery.createdAt = new Date(startDate);
+  }
+
   try {
-    const Allleads = await Lead.find({});
+    const Allleads = await Lead.find(customQuery);
     if (Allleads.length === 0) {
       return response.json({
         total: Allleads.length,
@@ -38,17 +30,18 @@ const getAllLeads = async (request, response) => {
 };
 
 const CreateLeadController = async (request, response) => {
-  const { name, email, contact } = request.body;
+  const { name, email, contact, date } = request.body;
   try {
     const newLead = new Lead({
       name,
       email,
       phone: contact,
+      createdAt: date,
     });
 
     await newLead.save().then(() => {
       return response.status(200).json({
-        lead: newLead,
+        message: "Your details have been added",
       });
     });
   } catch (error) {
