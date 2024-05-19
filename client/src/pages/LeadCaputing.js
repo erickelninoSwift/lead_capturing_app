@@ -1,4 +1,3 @@
-import { Footer } from "flowbite-react";
 import React from "react";
 
 const LeadCaputing = () => {
@@ -16,7 +15,7 @@ const LeadCaputing = () => {
           </div>
 
           <div className="space-y-4 px-8 py-10">
-            <label className="block" for="name">
+            <label className="block" htmlFor="name">
               <p className="text-gray-600">Name</p>
               <input
                 className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
@@ -24,7 +23,7 @@ const LeadCaputing = () => {
                 placeholder="Enter your name"
               />
             </label>
-            <label className="block" for="name">
+            <label className="block" htmlFor="name">
               <p className="text-gray-600">Email Address</p>
               <input
                 className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
@@ -32,7 +31,7 @@ const LeadCaputing = () => {
                 placeholder="Enter your email"
               />
             </label>
-            <label className="block" for="name">
+            <label className="block" htmlFor="name">
               <p className="text-gray-600">Phone number</p>
               <input
                 className="w-full rounded-md border bg-white px-2 py-2 outline-none ring-blue-600 focus:ring-1"
