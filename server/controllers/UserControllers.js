@@ -17,29 +17,28 @@ const LoginController = async (request, response) => {
     ]);
     if (!userFound.rows.length) {
       return response.json({
-        detail: "user is not found , please provide correct username/password",
+        detail: "please provide correct username/password",
       });
     }
     const comparePassword = await bcrypt.compare(
       password,
       userFound.rows[0].hashed_password
     );
-    console.log(comparePassword);
 
     if (!comparePassword) {
       return response.json({
-        detail: "password used was not correct please provide right password",
+        detail: "password used was not correct",
       });
     }
     const token = jwt.sign({ email }, "secret", { expiresIn: "3h" });
-    return response.json({
+    return response.status(200).json({
       email: userFound.rows[0].email,
       token,
+      message: "Login Success",
     });
   } catch (error) {
-    console.log(error);
     response.json({
-      detail: error,
+      detail: "failed to connec tto server",
     });
   }
 };
@@ -63,20 +62,5 @@ const SignupController = async (request, response) => {
     });
   }
 };
-
-// app.get("/users", async (request, response) => {
-//   try {
-//     const allusers = await pool.query("SELECT * FROM users");
-//     console.log(allusers.rows);
-//     return response.json({
-//       users: allusers.rows,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     response.json({
-//       detail: error,
-//     });
-//   }
-// });
 
 module.exports = { LoginController, SignupController };

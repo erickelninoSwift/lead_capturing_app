@@ -3,7 +3,7 @@ import Table from "./Table/Table";
 const UserTable = () => {
   return (
     <>
-      <Table />
+      <div>Hello everyone</div>
     </>
   );
 };

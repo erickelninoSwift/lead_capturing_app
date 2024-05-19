@@ -6,9 +6,10 @@ import { Routes, Route } from "react-router-dom";
 import LeadCaputing from "./pages/LeadCaputing";
 import Navbar from "./components/Navbar";
 import AdminPage from "./pages/AdminPage";
-
+import { useCookies } from "react-cookie";
 function App() {
-  const [Authtoken, setAuthtoken] = useState(null);
+  const [cookies, setCookie, removeCookie] = useCookies(null);
+  const Authtoken = cookies.AuthToken;
   return (
     <>
       <Navbar />
@@ -17,7 +18,7 @@ function App() {
           path="/"
           element={Authtoken ? <AdminPage /> : <LeadCaputing />}
         />
-        <Route path="/login" element={<Login tokenAdd={setAuthtoken} />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<AdminPage />} />
       </Routes>
       <Footer />

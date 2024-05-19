@@ -1,25 +1,49 @@
 import React, { useState } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = ({ setSignInnow }) => {
   const [email, setEmail] = useState("");
+  const [cookies, setCookie, removeCookie] = useCookies(null);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [errorMesage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleEmail = (e) => {
     e.preventDefault();
-
     console.log(e.target.value);
+    setEmail(() => e.target.value);
   };
 
   const handlePassword = (e) => {
     e.preventDefault();
-
     console.log(e.target.value);
+    setPassword(() => e.target.value);
   };
 
   const handleRePassword = (e) => {
     e.preventDefault();
     console.log(e.target.value);
+    setConfirmPassword(() => e.target.value);
+  };
+
+  const handleLogin = async (e) => {
+    const response = await fetch(`http://localhost:8080/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const datareceived = await response.json();
+    if (datareceived.detail) {
+      setErrorMessage(datareceived.detail);
+    } else {
+      setMessage(datareceived.message);
+      setCookie("Email", datareceived.email);
+      setCookie("AuthToken", datareceived.token);
+      navigate("/");
+    }
   };
 
   return (
@@ -58,6 +82,7 @@ const RegisterPage = ({ setSignInnow }) => {
             id="password"
             className="border-1 peer block w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-2.5 pt-4 pb-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
             placeholder=" "
+            onChange={(e) => handlePassword(e)}
           />
           <label
             for="password"
@@ -76,6 +101,7 @@ const RegisterPage = ({ setSignInnow }) => {
             id="password"
             className="border-1 peer block w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-2.5 pt-4 pb-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
             placeholder=" "
+            onChange={(e) => handleRePassword(e)}
           />
           <label
             for="password"

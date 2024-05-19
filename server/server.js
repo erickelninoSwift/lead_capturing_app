@@ -2,7 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const { connectDB } = require("./connect/connect");
-
+const { pool } = require("./connect/db");
 // Routes ireuired
 const LoginuserRoute = require("./routes/LoginRoute");
 const SignuserRoute = require("./routes/SignupRoute");
@@ -36,6 +36,21 @@ app.use(LeadRoute);
 
 // Filter leads By Given Date range
 // ==============================
+
+app.get("/users", async (request, response) => {
+  try {
+    const allusers = await pool.query("SELECT * FROM users");
+    console.log(allusers.rows);
+    return response.json({
+      users: allusers.rows,
+    });
+  } catch (error) {
+    console.log(error);
+    response.json({
+      detail: error,
+    });
+  }
+});
 
 // connect to DB and server
 const start_server = async () => {
