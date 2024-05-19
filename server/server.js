@@ -2,8 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const { connectDB } = require("./connect/connect");
-const { pool } = require("./connect/db");
-const Lead = require("./model/LeadModel");
+
 // Routes ireuired
 const LoginuserRoute = require("./routes/LoginRoute");
 const SignuserRoute = require("./routes/SignupRoute");
@@ -37,8 +36,6 @@ app.use(LeadRoute);
 
 // Filter leads By Given Date range
 // ==============================
-
-// =======
 
 // connect to DB and server
 const start_server = async () => {

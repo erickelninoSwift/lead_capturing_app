@@ -3,24 +3,22 @@ const Lead = require("../model/LeadModel");
 const getAllLeads = async (request, response) => {
   const { startDate, endDate } = request.query;
 
-  const customQuery = {};
+  //   if (startDate) {
+  //     customQuery.startDate = new Date(startDate);
+  //   }
+  //   if (endDate) {
+  //     customQuery.endDate = new Date(endDate);
+  //   }
 
-  if (startDate) {
-    customQuery.startDate = new Date(startDate);
-  }
-  if (endDate) {
-    customQuery.endDate = new Date(endDate);
-  }
-
-  console.log(customQuery);
-  if (customQuery.startDate > customQuery.endDate) {
-    return response.json({
-      message: "End Date can not be smaller than start data",
-    });
-  }
-
+  //   console.log(customQuery);
+  //   if (customQuery.startDate > customQuery.endDate) {
+  //     return response.json({
+  //       message: "End Date can not be smaller than start data",
+  //     });
+  //   }
+  console.log(new Date(startDate).getUTCDate());
   try {
-    const Allleads = await Lead.find(customQuery);
+    const Allleads = await Lead.find({});
     if (Allleads.length === 0) {
       return response.json({
         total: Allleads.length,
