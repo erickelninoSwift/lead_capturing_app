@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const leadsSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     require: [true, "name must be provided"],
@@ -9,8 +9,8 @@ const leadsSchema = new mongoose.Schema({
     type: String,
     require: [true, "email must be provided"],
   },
-  phone: {
-    type: Number,
+  password: {
+    type: String,
     require: [true, "Phone number must be provided"],
   },
   createdAt: {
@@ -21,4 +21,4 @@ const leadsSchema = new mongoose.Schema({
 
 // const User = mongoose.model("User", userSchema);
 
-module.exports = mongoose.model("Lead", leadsSchema);
+module.exports = mongoose.model("Users", userSchema);
