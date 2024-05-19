@@ -1,6 +1,9 @@
 const Lead = require("../model/LeadModel");
 
 const getAllLeads = async (request, response) => {
+  const { startDate, endDate } = request.query;
+
+  console.log(startDate);
   try {
     const Allleads = await Lead.find({});
     if (Allleads.length === 0) {

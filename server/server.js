@@ -30,10 +30,15 @@ app.use(SignuserRoute);
 // Login middleware
 app.use(LoginuserRoute);
 // ==========
-// FetchAll leads
+// All leads or Lead operations
 // ==================
 app.use(LeadRoute);
 // ===============
+
+// Filter leads By Given Date range
+// ==============================
+
+// =======
 
 // connect to DB and server
 const start_server = async () => {
