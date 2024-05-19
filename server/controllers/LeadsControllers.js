@@ -22,7 +22,7 @@ const getAllLeads = async (request, response) => {
     if (Allleads.length === 0) {
       return response.json({
         total: Allleads.length,
-        data: "No record found",
+        message: "No record found",
       });
     }
     response.json({
@@ -30,7 +30,10 @@ const getAllLeads = async (request, response) => {
       data: Allleads,
     });
   } catch (error) {
-    console.log(error);
+    return response.status(500).json({
+      success: false,
+      message: error,
+    });
   }
 };
 
@@ -59,18 +62,18 @@ const DeleteLeadController = async (request, response) => {
   const { id } = request.params;
   try {
     const findLead = await Lead.findOneAndDelete({ _id: id });
-    console.log(findLead);
+
     if (findLead === null) {
       return response.status(404).json({
         id: id,
-        message: "Not found ",
+        message: "Record was not found",
       });
     }
     return response.status(200).json({
-      message: "Deleted",
+      message: "Record Deleted",
     });
   } catch (error) {
-    response.json({
+    response.status(500).json({
       message: "Failed to delete",
     });
   }

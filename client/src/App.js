@@ -6,6 +6,7 @@ import Applayout from "./pages/Applayout";
 import { Routes, Route } from "react-router-dom";
 import LeadCaputing from "./pages/LeadCaputing";
 import Navbar from "./components/Navbar";
+import AdminPage from "./pages/AdminPage";
 
 function App() {
   const [login, setLogin] = useState(true);
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LeadCaputing />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<AdminPage />} />
       </Routes>
       <Footer />
     </>
