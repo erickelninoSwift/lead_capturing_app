@@ -29,8 +29,18 @@ const RegisterPage = ({ setSignInnow }) => {
     setConfirmPassword(() => e.target.value);
   };
 
-  const handleLogin = async (e) => {
-    const response = await fetch(`http://localhost:8080/login`, {
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    if (!email || !password || !confirmPassword) {
+      setErrorMessage("Make sure all field are filled");
+      return setTimeout(() => setErrorMessage(""), 3000);
+    }
+    if (password !== confirmPassword) {
+      setErrorMessage("Password dont match ");
+      return setTimeout(() => setErrorMessage(""), 3000);
+    }
+    const response = await fetch(`http://localhost:8080/signup`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -61,12 +71,13 @@ const RegisterPage = ({ setSignInnow }) => {
           <input
             type="text"
             id="email"
-            value=""
             className="border-1 peer block w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-2.5 pt-4 pb-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
             placeholder=" "
+            value={email}
+            onChange={(e) => handleEmail(e)}
           />
           <label
-            for="email"
+            htmlFor="email"
             className="origin-[0] peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600 absolute left-1 top-2 z-10 -translate-y-4 scale-75 transform cursor-text select-none bg-white px-2 text-sm text-gray-500 duration-300"
           >
             {" "}
@@ -78,14 +89,15 @@ const RegisterPage = ({ setSignInnow }) => {
       <div>
         <div className="relative mt-2 w-full">
           <input
-            type="text"
+            type="password"
             id="password"
             className="border-1 peer block w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-2.5 pt-4 pb-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
             placeholder=" "
+            value={password}
             onChange={(e) => handlePassword(e)}
           />
           <label
-            for="password"
+            htmlFor="password"
             className="origin-[0] peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600 absolute left-1 top-2 z-10 -translate-y-4 scale-75 transform cursor-text select-none bg-white px-2 text-sm text-gray-500 duration-300"
           >
             {" "}
@@ -97,14 +109,15 @@ const RegisterPage = ({ setSignInnow }) => {
       <div>
         <div className="relative mt-2 w-full">
           <input
-            type="text"
-            id="password"
+            type="password"
+            id="password1"
             className="border-1 peer block w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-2.5 pt-4 pb-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
             placeholder=" "
+            value={confirmPassword}
             onChange={(e) => handleRePassword(e)}
           />
           <label
-            for="password"
+            htmlFor="password1"
             className="origin-[0] peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600 absolute left-1 top-2 z-10 -translate-y-4 scale-75 transform cursor-text select-none bg-white px-2 text-sm text-gray-500 duration-300"
           >
             {" "}
@@ -113,7 +126,10 @@ const RegisterPage = ({ setSignInnow }) => {
         </div>
       </div>
       <div className="flex w-full items-center">
-        <button className="shrink-0 inline-block w-36 rounded-lg bg-blue-600 py-3 font-bold text-white">
+        <button
+          className="shrink-0 inline-block w-36 rounded-lg bg-blue-600 py-3 font-bold text-white"
+          onClick={(e) => handleRegister(e)}
+        >
           Register
         </button>
       </div>
@@ -127,6 +143,16 @@ const RegisterPage = ({ setSignInnow }) => {
           Login
         </a>
       </p>
+      {message && (
+        <p className="text-sm h-[40px] w-[100%] flex justify-center items-center rounded-md bg-green-300 text-green-700">
+          {message}
+        </p>
+      )}
+      {errorMesage && (
+        <p className="text-sm h-[40px] w-[100%] flex justify-center items-center rounded-md bg-red-400 text-red-900">
+          {errorMesage}
+        </p>
+      )}
     </div>
   );
 };

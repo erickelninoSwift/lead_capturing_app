@@ -21,6 +21,12 @@ const LoginPage = ({ setSignInnow }) => {
   };
 
   const handleLogin = async (e) => {
+    e.preventDefault();
+    setErrorMessage("");
+    if (!email || !password) {
+      setErrorMessage("Please provide all details");
+      return setTimeout(() => setErrorMessage(""), 3000);
+    }
     const response = await fetch(`http://localhost:8080/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -71,15 +77,15 @@ const LoginPage = ({ setSignInnow }) => {
         <div>
           <div className="relative mt-2 w-full">
             <input
-              type="text"
-              id="password"
+              type="password"
+              id="password1"
               className="border-1 peer block w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-2.5 pt-4 pb-2.5 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-0"
               placeholder=""
               value={password}
               onChange={(e) => handlePassword(e)}
             />
             <label
-              htmlFor="password"
+              htmlFor="password1"
               className="origin-[0] peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-4 peer-focus:scale-75 peer-focus:px-2 peer-focus:text-blue-600 absolute left-1 top-2 z-10 -translate-y-4 scale-75 transform cursor-text select-none bg-white px-2 text-sm text-gray-500 duration-300"
             >
               {" "}

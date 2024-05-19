@@ -31,6 +31,11 @@ const getAllLeads = async (request, response) => {
 
 const CreateLeadController = async (request, response) => {
   const { name, email, contact, date } = request.body;
+  if (!name || !email || !contact) {
+    return response.json({
+      detail: "Make sure all data are provided",
+    });
+  }
   try {
     const newLead = new Lead({
       name,
@@ -41,12 +46,12 @@ const CreateLeadController = async (request, response) => {
 
     await newLead.save().then(() => {
       return response.status(200).json({
-        message: "Your details have been added",
+        message: "Your details have been saved Thank you!",
       });
     });
   } catch (error) {
     return response.status(400).json({
-      message: `Error was found ${error}`,
+      detail: `Error was while registering `,
     });
   }
 };

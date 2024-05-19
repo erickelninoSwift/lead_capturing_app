@@ -29,31 +29,35 @@ const LeadCaputing = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!name || !email || !contact) {
-      return;
+      setCustomError("Please do not leave empty fields");
+      return setTimeout(() => setCustomError(""), 3000);
     }
 
-    try {
-      const response = await fetch(`http://localhost:8080/leads`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          contact,
-          date: new Date().toISOString().slice(0, 10),
-        }),
-      });
+    const response = await fetch(`http://localhost:8080/leads`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name,
+        email,
+        contact,
+        date: new Date().toISOString(),
+      }),
+    });
 
-      const { message } = await response.json();
-      if (response.ok && response.status === 200) {
-        setMessage(message);
-        setEmail("");
-        setContact("");
-        setName("");
-      }
-    } catch (error) {
-      setCustomError(error);
+    const datacaptured = await response.json();
+
+    if (datacaptured.detail) {
+      setCustomError(datacaptured.detail);
+      return setTimeout(() => {
+        return setCustomError("");
+      }, 3000);
+    } else {
+      setEmail("");
+      setContact("");
+      setName("");
+      setMessage(message);
     }
   };
 
@@ -108,8 +112,13 @@ const LeadCaputing = () => {
               Submit
             </button>
             {message && (
-              <p className="text-xl h-[40px] w-[100%] flex justify-center items-center rounded-md bg-green-300 text-green-700">
+              <p className="text-sm h-[40px] w-[100%] flex justify-center items-center rounded-md bg-green-300 text-green-700">
                 {message}
+              </p>
+            )}
+            {customError && (
+              <p className="text-sm h-[40px] w-[100%] flex justify-center items-center rounded-md bg-red-400 text-red-900">
+                {customError}
               </p>
             )}
           </div>
