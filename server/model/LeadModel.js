@@ -14,7 +14,7 @@ const leadsSchema = new mongoose.Schema({
     require: [true, "Phone number must be provided"],
   },
   createdAt: {
-    type: Date,
+    type: String,
   },
 });
 

@@ -54,6 +54,7 @@ const RegisterPage = ({ setSignInnow }) => {
       setCookie("AuthToken", datareceived.token);
       navigate("/");
     }
+    setTimeout(() => setMessage(""), 3000);
   };
 
   return (

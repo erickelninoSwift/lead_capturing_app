@@ -1,5 +1,13 @@
 import React, { useState } from "react";
 
+function formatDate(value) {
+  let date = new Date(value);
+  const day = date.toLocaleString("default", { day: "2-digit" });
+  const month = date.toLocaleString("default", { month: "short" });
+  const year = date.toLocaleString("default", { year: "numeric" });
+  return day + "-" + month + "-" + year;
+}
+
 const LeadCaputing = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -42,7 +50,7 @@ const LeadCaputing = () => {
         name,
         email,
         contact,
-        date: new Date().toISOString(),
+        date: formatDate(new Date()),
       }),
     });
 
@@ -54,11 +62,12 @@ const LeadCaputing = () => {
         return setCustomError("");
       }, 3000);
     } else {
+      setMessage(datacaptured.message);
       setEmail("");
       setContact("");
       setName("");
-      setMessage(message);
     }
+    setTimeout(() => setMessage(""), 3000);
   };
 
   return (

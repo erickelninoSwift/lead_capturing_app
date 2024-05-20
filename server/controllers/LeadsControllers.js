@@ -6,7 +6,7 @@ const getAllLeads = async (request, response) => {
   let customQuery = {};
 
   if (startDate) {
-    customQuery.createdAt = new Date(startDate);
+    customQuery.createdAt = startDate;
   }
 
   try {
