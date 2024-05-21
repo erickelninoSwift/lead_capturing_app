@@ -64,7 +64,7 @@ const DeleteLeadController = async (request, response) => {
     if (findLead === null) {
       return response.status(404).json({
         id: id,
-        message: "Record was not found",
+        detail: "Record was not found",
       });
     }
     return response.status(200).json({
@@ -72,7 +72,7 @@ const DeleteLeadController = async (request, response) => {
     });
   } catch (error) {
     response.status(500).json({
-      message: "Failed to delete",
+      detail: "Failed to delete",
     });
   }
 };
@@ -107,7 +107,7 @@ const selectedLeadController = async (request, response) => {
     const findLead = await Lead.find({ _id: id });
     if (!findLead) {
       return response.status(404).json({
-        message: "Not found",
+        detail: "Record was not found",
       });
     }
     return response.status(200).json({
@@ -115,7 +115,7 @@ const selectedLeadController = async (request, response) => {
     });
   } catch (error) {
     return response.json({
-      message: "Error found while find Lead",
+      detail: "Error while connecting to the server",
     });
   }
 };

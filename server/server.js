@@ -37,20 +37,20 @@ app.use(LeadRoute);
 // Filter leads By Given Date range
 // ==============================
 
-app.get("/users", async (request, response) => {
-  try {
-    const allusers = await pool.query("SELECT * FROM users");
-    console.log(allusers.rows);
-    return response.json({
-      users: allusers.rows,
-    });
-  } catch (error) {
-    console.log(error);
-    response.json({
-      detail: error,
-    });
-  }
-});
+// app.get("/users", async (request, response) => {
+//   try {
+//     const allusers = await pool.query("SELECT * FROM users");
+//     console.log(allusers.rows);
+//     return response.json({
+//       users: allusers.rows,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     response.json({
+//       detail: error,
+//     });
+//   }
+// });
 
 // connect to DB and server
 const start_server = async () => {
