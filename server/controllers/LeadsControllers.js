@@ -3,6 +3,7 @@ const Lead = require("../model/LeadModel");
 const getAllLeads = async (request, response) => {
   const { startDate } = request.query;
 
+  console.log(startDate);
   let customQuery = {};
 
   if (startDate) {
@@ -13,18 +14,15 @@ const getAllLeads = async (request, response) => {
     const Allleads = await Lead.find(customQuery);
     if (Allleads.length === 0) {
       return response.json({
-        total: Allleads.length,
-        message: "No record found",
+        detail: "No record Found",
       });
     }
     response.json({
-      total: Allleads.length,
       data: Allleads,
     });
   } catch (error) {
     return response.status(500).json({
-      success: false,
-      message: error,
+      detail: error,
     });
   }
 };

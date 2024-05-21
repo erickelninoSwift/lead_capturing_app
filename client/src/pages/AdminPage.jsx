@@ -8,7 +8,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.module.css";
 import { FaCalendarAlt } from "react-icons/fa";
-
+import { formatDate } from "../utils/dateformater";
 const AdminPage = () => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
   const Authtoken = cookies.AuthToken;
@@ -20,7 +20,8 @@ const AdminPage = () => {
   const [dataToupdate, setDatatoUpdate] = useState(null);
   const [leads, setAllLeads] = useState([]);
   const [addLeadModal, setAddleadModal] = useState(false);
-  const [dateValue, setDateValue] = useState(new Date());
+  const [dateValue, setDateValue] = useState(null);
+  const [customError, setCustomErro] = useState(null);
 
   const handleValueChange = (newValue) => {
     setDateValue(newValue);
@@ -29,15 +30,33 @@ const AdminPage = () => {
   const fetchAllLeads = async () => {
     const response = await fetch(`http://localhost:8080/leads`);
     const allDataFetched = await response.json();
-    setAllLeads(() => allDataFetched.data);
-    console.log(allDataFetched.data);
+    if (allDataFetched.detail) {
+      setCustomErro(allDataFetched.detail);
+      setTimeout(() => {
+        setCustomErro(null);
+        window.location.reload();
+      }, 3000);
+    } else {
+      setAllLeads(allDataFetched.data);
+    }
   };
 
-  const handleFilteringDatabyDate = () => {
+  const handleFilteringDatabyDate = async () => {
     if (!dateValue) {
       return;
     }
-    console.log(dateValue);
+    const response = await fetch(
+      `http://localhost:8080/leads?startDate=${formatDate(dateValue)}`
+    );
+    const allDataFetched = await response.json();
+    if (allDataFetched.detail) {
+      setCustomErro(allDataFetched.detail);
+      setTimeout(() => {
+        setCustomErro(null);
+      }, 3000);
+    } else {
+      setAllLeads(allDataFetched.data);
+    }
   };
 
   useEffect(() => {
@@ -77,33 +96,46 @@ const AdminPage = () => {
             <div className="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row sm:space-y-0">
               <div className="relative flex w-[300px] max-w-2xl items-center">
                 {/* <Datepicker value={dateValue} onChange={handleValueChange} /> */}
-                <ReactDatePicker
-                  selected={dateValue}
-                  onChange={(date) => setDateValue(date)}
-                />
-              </div>
-              <button
-                type="button"
-                className="relative mr-auto inline-flex cursor-pointer items-center rounded-full border border-gray-200 bg-white px-5 py-2 text-center text-sm font-medium text-gray-800 hover:bg-gray-100 focus:shadow sm:mr-0"
-                onClick={() => handleFilteringDatabyDate()}
-              >
-                <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
-                <svg
-                  className="mr-2 h-3 w-3"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                <label className="flex gap-1 justify-center items-center">
+                  <ReactDatePicker
+                    selected={dateValue}
+                    onChange={(date) => setDateValue(date)}
                   />
-                </svg>
-                Filter
-              </button>
+                  <FaCalendarAlt size={25} />
+                </label>
+              </div>
+              <div className="flex gap-3 justify-center items-center">
+                <button
+                  type="button"
+                  className="relative mr-auto inline-flex cursor-pointer items-center rounded-full border border-gray-200 bg-white px-5 py-2 text-center text-sm font-medium text-gray-800 hover:bg-gray-100 focus:shadow sm:mr-0"
+                  onClick={() => handleFilteringDatabyDate()}
+                >
+                  <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
+                  <svg
+                    className="mr-2 h-3 w-3"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                    />
+                  </svg>
+                  Filter
+                </button>
+                <button
+                  onClick={() => {
+                    setDateValue(null);
+                    fetchAllLeads();
+                  }}
+                >
+                  Reset
+                </button>
+              </div>
             </div>
           </div>
 
@@ -135,24 +167,35 @@ const AdminPage = () => {
               </thead>
 
               <tbody className="bg-white lg:border-gray-300">
-                {leads.map((currentLead) => {
-                  const { _id } = currentLead;
-                  console.log(_id);
-                  return (
-                    <TableRow
-                      key={_id}
-                      lead={currentLead}
-                      buttonModal={setOpenmodal}
-                      modalUpdateorView={setModalUpdate}
-                      setOpenModal={setOpenDeleteModal}
-                      setDatatodelete={setDatatodelete}
-                      setDatatoview={setDatatoview}
-                      setDatatoUpdate={setDatatoUpdate}
-                    />
-                  );
-                })}
+                {leads &&
+                  leads.map((currentLead) => {
+                    const { _id } = currentLead;
+                    console.log(_id);
+                    return (
+                      <TableRow
+                        key={_id}
+                        lead={currentLead}
+                        buttonModal={setOpenmodal}
+                        modalUpdateorView={setModalUpdate}
+                        setOpenModal={setOpenDeleteModal}
+                        setDatatodelete={setDatatodelete}
+                        setDatatoview={setDatatoview}
+                        setDatatoUpdate={setDatatoUpdate}
+                      />
+                    );
+                  })}
               </tbody>
             </table>
+            {!leads && (
+              <p className="text-sm h-[60px] w-full mx-auto flex justify-center items-center rounded-md bg-red-400 text-red-900">
+                "No record found at this moments"
+              </p>
+            )}
+            {customError && (
+              <p className="text-sm h-[60px] w-full mx-auto flex justify-center items-center rounded-md bg-red-400 text-red-900">
+                {customError} on this specific date
+              </p>
+            )}
           </div>
         </div>
       </div>
