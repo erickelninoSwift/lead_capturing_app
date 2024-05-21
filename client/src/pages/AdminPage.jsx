@@ -30,9 +30,15 @@ const AdminPage = () => {
   const [addLeadModal, setAddleadModal] = useState(false);
   const [dateValue, setDateValue] = useState(new Date());
   const [customError, setCustomErro] = useState(null);
-
+  const [value, setValue] = useState({
+    startDate: null,
+    endDate: null,
+  });
+  const { startDate, endDate } = value;
   const handleValueChange = (newValue) => {
-    setDateValue(newValue);
+    setValue(() => {
+      return newValue;
+    });
   };
 
   const fetchAllLeads = async () => {
@@ -46,12 +52,32 @@ const AdminPage = () => {
     }
   };
 
+  // const handleFilteringDatabyDate = async () => {
+  //   if (!dateValue) {
+  //     return;
+  //   }
+  //   const response = await fetch(
+  //     `http://localhost:8080/leads?startDate=${formatDate(dateValue)}`
+  //   );
+  //   const allDataFetched = await response.json();
+  //   if (allDataFetched.detail) {
+  //     setCustomErro(allDataFetched.detail);
+  //   } else {
+  //     setAllLeads(allDataFetched.data);
+  //   }
+  // };
+
   const handleFilteringDatabyDate = async () => {
-    if (!dateValue) {
+    if (!value.startDate || !value.endDate) {
+      console.log("we not good");
       return;
     }
+
+    console.log("we good");
     const response = await fetch(
-      `http://localhost:8080/leads?startDate=${formatDate(dateValue)}`
+      `http://localhost:8080/leads?startDate=${formatDate(
+        startDate
+      )}&endOfDate=${formatDate(endDate)}`
     );
     const allDataFetched = await response.json();
     if (allDataFetched.detail) {
@@ -97,14 +123,14 @@ const AdminPage = () => {
           <div className="mt-4 w-full">
             <div className="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row sm:space-y-0">
               <div className="relative flex w-[300px] max-w-2xl items-center">
-                {/* <Datepicker value={dateValue} onChange={handleValueChange} /> */}
-                <label className="flex gap-1 justify-center items-center">
+                <Datepicker value={value} onChange={handleValueChange} />
+                {/* <label className="flex gap-1 justify-center items-center">
                   <ReactDatePicker
                     selected={dateValue}
                     onChange={(date) => setDateValue(date)}
                   />
                   <FaCalendarAlt size={24} />
-                </label>
+                </label> */}
               </div>
               <div className="flex gap-3 justify-center items-center">
                 <button
@@ -132,6 +158,7 @@ const AdminPage = () => {
                 <button
                   onClick={() => {
                     setDateValue(null);
+                    setValue({ startDate: null, endDate: null });
                     fetchAllLeads();
                   }}
                 >

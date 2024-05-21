@@ -1,16 +1,23 @@
 const Lead = require("../model/LeadModel");
 
 const getAllLeads = async (request, response) => {
-  const { startDate } = request.query;
+  const { startDate, endOfDate } = request.query;
 
   let customQuery = {};
 
-  if (startDate) {
-    customQuery.createdAt = { $gte: startDate };
+  // if (startDate) {
+  //   customQuery.createdAt = { $gte: startDate };
+  // }
+
+  if (startDate && endOfDate) {
+    customQuery.createdAt = { $gte: startDate, $lte: endOfDate };
   }
 
+  console.log(customQuery ? true : false);
   try {
-    const Allleads = await Lead.find(customQuery).sort("createdAt");
+    const Allleads = await Lead.find(customQuery ? customQuery : {}).sort(
+      "createdAt"
+    );
     if (Allleads.length === 0) {
       return response.json({
         message: "No record Found",
