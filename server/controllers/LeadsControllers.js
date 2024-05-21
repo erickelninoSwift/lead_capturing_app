@@ -3,18 +3,17 @@ const Lead = require("../model/LeadModel");
 const getAllLeads = async (request, response) => {
   const { startDate } = request.query;
 
-  console.log(startDate);
   let customQuery = {};
 
   if (startDate) {
     customQuery.createdAt = startDate;
   }
-
+  console.log(customQuery.createdAt);
   try {
     const Allleads = await Lead.find(customQuery);
     if (Allleads.length === 0) {
       return response.json({
-        detail: "No record Found",
+        message: "No record Found",
       });
     }
     response.json({
@@ -29,6 +28,7 @@ const getAllLeads = async (request, response) => {
 
 const CreateLeadController = async (request, response) => {
   const { name, email, contact, date } = request.body;
+  console.log("backend date", date);
   if (!name || !email || !contact) {
     return response.json({
       detail: "Make sure all data are provided",
@@ -61,8 +61,7 @@ const DeleteLeadController = async (request, response) => {
 
     if (findLead === null) {
       return response.status(404).json({
-        id: id,
-        detail: "Record was not found",
+        message: "Record was not found",
       });
     }
     return response.status(200).json({
@@ -94,7 +93,7 @@ const UpdateLeadController = async (request, response) => {
     });
   } catch (error) {
     response.json({
-      message: error,
+      detail: error,
     });
   }
 };

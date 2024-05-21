@@ -8,7 +8,15 @@ import Datepicker from "react-tailwindcss-datepicker";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.module.css";
 import { FaCalendarAlt } from "react-icons/fa";
-import { formatDate } from "../utils/dateformater";
+// import { formatDate } from "../utils/dateformater";
+
+export const formatDate = (value) => {
+  let date = new Date(value);
+  const day = date.toLocaleString("default", { day: "2-digit" });
+  const month = date.toLocaleString("default", { month: "short" });
+  const year = date.toLocaleString("default", { year: "numeric" });
+  return day + "-" + month + "-" + year;
+};
 const AdminPage = () => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
   const Authtoken = cookies.AuthToken;
@@ -20,7 +28,7 @@ const AdminPage = () => {
   const [dataToupdate, setDatatoUpdate] = useState(null);
   const [leads, setAllLeads] = useState([]);
   const [addLeadModal, setAddleadModal] = useState(false);
-  const [dateValue, setDateValue] = useState(null);
+  const [dateValue, setDateValue] = useState(new Date());
   const [customError, setCustomErro] = useState(null);
 
   const handleValueChange = (newValue) => {
@@ -32,10 +40,7 @@ const AdminPage = () => {
     const allDataFetched = await response.json();
     if (allDataFetched.detail) {
       setCustomErro(allDataFetched.detail);
-      setTimeout(() => {
-        setCustomErro(null);
-        window.location.reload();
-      }, 3000);
+      setTimeout(() => setCustomErro(null), 3000);
     } else {
       setAllLeads(allDataFetched.data);
     }
@@ -51,9 +56,6 @@ const AdminPage = () => {
     const allDataFetched = await response.json();
     if (allDataFetched.detail) {
       setCustomErro(allDataFetched.detail);
-      setTimeout(() => {
-        setCustomErro(null);
-      }, 3000);
     } else {
       setAllLeads(allDataFetched.data);
     }

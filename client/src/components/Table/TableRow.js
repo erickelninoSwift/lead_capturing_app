@@ -10,7 +10,7 @@ const TableRow = ({
   setDatatoUpdate,
 }) => {
   const { createdAt, name, email, phone, _id } = lead;
-
+  console.log(lead);
   const handleEdit = () => {
     buttonModal(true);
     modalUpdateorView(true);
