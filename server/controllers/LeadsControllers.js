@@ -6,7 +6,7 @@ const getAllLeads = async (request, response) => {
   let customQuery = {};
 
   if (startDate) {
-    customQuery.createdAt = startDate;
+    customQuery.createdAt = { $gte: customQuery.createdAt };
   }
 
   try {
