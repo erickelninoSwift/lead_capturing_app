@@ -8,9 +8,9 @@ const getAllLeads = async (request, response) => {
   if (startDate) {
     customQuery.createdAt = startDate;
   }
-  console.log(customQuery.createdAt);
+
   try {
-    const Allleads = await Lead.find(customQuery);
+    const Allleads = await Lead.find(customQuery).sort("createdAt");
     if (Allleads.length === 0) {
       return response.json({
         message: "No record Found",
@@ -48,6 +48,7 @@ const CreateLeadController = async (request, response) => {
       });
     });
   } catch (error) {
+    console.log(error);
     return response.status(400).json({
       detail: `Error was while registering `,
     });

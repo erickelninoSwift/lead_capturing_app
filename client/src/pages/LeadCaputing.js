@@ -18,20 +18,18 @@ const LeadCaputing = () => {
   const handleNname = (e) => {
     e.preventDefault();
 
-    console.log(e.target.value);
     setName(() => e.target.value);
   };
 
   const handleEmail = (e) => {
     e.preventDefault();
 
-    console.log(e.target.value);
     setEmail(() => e.target.value);
   };
 
   const handlePhonenumber = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
+
     setContact(() => e.target.value);
   };
 

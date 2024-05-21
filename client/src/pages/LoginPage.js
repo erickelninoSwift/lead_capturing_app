@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 const LoginPage = ({ setSignInnow }) => {
@@ -10,13 +10,13 @@ const LoginPage = ({ setSignInnow }) => {
   const navigate = useNavigate();
   const handleEmail = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
+
     setEmail(() => e.target.value);
   };
 
   const handlePassword = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
+
     setPassword(() => e.target.value);
   };
 

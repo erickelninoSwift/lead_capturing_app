@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const { pool } = require("../connect/db");
+const User = require("../model/UserModel");
 
 const saltRounds = 10;
 const myhashmyPassword = (myPlaintextPassword) => {
@@ -11,18 +11,23 @@ const myhashmyPassword = (myPlaintextPassword) => {
 const LoginController = async (request, response) => {
   const { email, password } = request.body;
   try {
-    // chaking user
-    const userFound = await pool.query("SELECT * FROM users WHERE email = $1", [
-      email,
-    ]);
-    if (!userFound.rows.length) {
+    if (!email || !password) {
       return response.json({
-        detail: "please provide correct username/password",
+        detail: "Please provide email / password",
       });
     }
+    // chaking user
+
+    const userFound = await User.find({ email: email });
+    if (!userFound) {
+      return response.json({
+        detail: "User not found ,Provide correct details",
+      });
+    }
+
     const comparePassword = await bcrypt.compare(
       password,
-      userFound.rows[0].hashed_password
+      userFound[0].password
     );
 
     if (!comparePassword) {
@@ -30,15 +35,15 @@ const LoginController = async (request, response) => {
         detail: "password used was not correct",
       });
     }
-    const token = jwt.sign({ email }, "secret", { expiresIn: "3h" });
+    const token = jwt.sign({ email }, "secret", { expiresIn: "1h" });
     return response.status(200).json({
-      email: userFound.rows[0].email,
+      email: userFound[0].email,
       token,
       message: "Login Success",
     });
   } catch (error) {
     response.json({
-      detail: "failed to connec tto server",
+      detail: "failed to connect tto server",
     });
   }
 };
@@ -46,16 +51,30 @@ const LoginController = async (request, response) => {
 const SignupController = async (request, response) => {
   const { email, password } = request.body;
 
+  if (!email || !password) {
+    return response.json({
+      detail: "Please dont leave field empty",
+    });
+  }
   const hashed = myhashmyPassword(password);
 
   try {
-    await pool.query(
-      "INSERT INTO users (email, hashed_password) VALUES ($1, $2)",
-      [email, hashed]
-    );
-
-    const token = jwt.sign({ email }, "secret", { expiresIn: "3h" });
-    return response.json({ email, token });
+    const createdUser = new User({
+      email,
+      password: hashed,
+    });
+    await createdUser
+      .save()
+      .then(() => {
+        const token = jwt.sign({ email }, "secret", { expiresIn: "1h" });
+        return response.json({ email, token });
+      })
+      .catch((error) => {
+        console.log(error);
+        return response.json({
+          detail: "Failed to save user",
+        });
+      });
   } catch (error) {
     return response.json({
       detail: error,
@@ -64,3 +83,58 @@ const SignupController = async (request, response) => {
 };
 
 module.exports = { LoginController, SignupController };
+
+// const SignupController = async (request, response) => {
+//   const { email, password } = request.body;
+
+//   const hashed = myhashmyPassword(password);
+
+//   try {
+//     await pool.query(
+//       "INSERT INTO users (email, hashed_password) VALUES ($1, $2)",
+//       [email, hashed]
+//     );
+
+//     const token = jwt.sign({ email }, "secret", { expiresIn: "3h" });
+//     return response.json({ email, token });
+//   } catch (error) {
+//     return response.json({
+//       detail: error,
+//     });
+//   }
+// };
+
+// const LoginController = async (request, response) => {
+//   const { email, password } = request.body;
+//   try {
+//     // chaking user
+//     const userFound = await pool.query("SELECT * FROM users WHERE email = $1", [
+//       email,
+//     ]);
+//     if (!userFound.rows.length) {
+//       return response.json({
+//         detail: "please provide correct username/password",
+//       });
+//     }
+//     const comparePassword = await bcrypt.compare(
+//       password,
+//       userFound.rows[0].hashed_password
+//     );
+
+//     if (!comparePassword) {
+//       return response.json({
+//         detail: "password used was not correct",
+//       });
+//     }
+//     const token = jwt.sign({ email }, "secret", { expiresIn: "3h" });
+//     return response.status(200).json({
+//       email: userFound.rows[0].email,
+//       token,
+//       message: "Login Success",
+//     });
+//   } catch (error) {
+//     response.json({
+//       detail: "failed to connec tto server",
+//     });
+//   }
+// };

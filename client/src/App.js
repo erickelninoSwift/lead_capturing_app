@@ -20,8 +20,8 @@ function App() {
           path="/"
           element={Authtoken ? <AdminPage /> : <LeadCaputing />}
         />
-        <Route path="/login" element={<Login />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/login" element={!Authtoken && <Login />} />
+        <Route path="/admin" element={Authtoken && <AdminPage />} />
       </Routes>
       <Footer />
     </>

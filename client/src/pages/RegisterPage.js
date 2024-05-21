@@ -13,19 +13,19 @@ const RegisterPage = ({ setSignInnow }) => {
 
   const handleEmail = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
+
     setEmail(() => e.target.value);
   };
 
   const handlePassword = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
+
     setPassword(() => e.target.value);
   };
 
   const handleRePassword = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
+
     setConfirmPassword(() => e.target.value);
   };
 

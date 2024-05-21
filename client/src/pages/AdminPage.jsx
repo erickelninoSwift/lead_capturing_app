@@ -103,7 +103,7 @@ const AdminPage = () => {
                     selected={dateValue}
                     onChange={(date) => setDateValue(date)}
                   />
-                  <FaCalendarAlt size={25} />
+                  <FaCalendarAlt size={24} />
                 </label>
               </div>
               <div className="flex gap-3 justify-center items-center">
@@ -172,7 +172,7 @@ const AdminPage = () => {
                 {leads &&
                   leads.map((currentLead) => {
                     const { _id } = currentLead;
-                    console.log(_id);
+
                     return (
                       <TableRow
                         key={_id}
