@@ -5,10 +5,6 @@ const getAllLeads = async (request, response) => {
 
   let customQuery = {};
 
-  // if (startDate) {
-  //   customQuery.createdAt = { $gte: startDate };
-  // }
-
   if (startDate && endOfDate) {
     customQuery.createdAt = { $gte: startDate, $lte: endOfDate };
   }
