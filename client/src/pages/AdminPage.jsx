@@ -4,6 +4,10 @@ import { useCookies } from "react-cookie";
 import Modal from "../components/Modal";
 import DeleteModal from "../components/DeleteModal";
 import AddModal from "../components/AddModal";
+import Datepicker from "react-tailwindcss-datepicker";
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.module.css";
+import { FaCalendarAlt } from "react-icons/fa";
 
 const AdminPage = () => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
@@ -15,7 +19,12 @@ const AdminPage = () => {
   const [dataToview, setDatatoview] = useState(null);
   const [dataToupdate, setDatatoUpdate] = useState(null);
   const [leads, setAllLeads] = useState([]);
-  const [addLeadModal, setAddleadModal] = useState(true);
+  const [addLeadModal, setAddleadModal] = useState(false);
+  const [dateValue, setDateValue] = useState(new Date());
+
+  const handleValueChange = (newValue) => {
+    setDateValue(newValue);
+  };
 
   const fetchAllLeads = async () => {
     const response = await fetch(`http://localhost:8080/leads`);
@@ -24,11 +33,18 @@ const AdminPage = () => {
     console.log(allDataFetched.data);
   };
 
+  const handleFilteringDatabyDate = () => {
+    if (!dateValue) {
+      return;
+    }
+    console.log(dateValue);
+  };
+
   useEffect(() => {
     if (Authtoken) {
       fetchAllLeads();
     }
-  }, [openModal, modalUpdate, openDeleteModal]);
+  }, [openModal, modalUpdate, openDeleteModal, addLeadModal]);
 
   return (
     <>
@@ -59,39 +75,17 @@ const AdminPage = () => {
         <div className="mx-auto max-w-screen-xl px-2 py-10">
           <div className="mt-4 w-full">
             <div className="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row sm:space-y-0">
-              <form className="relative flex w-full max-w-2xl items-center">
-                <svg
-                  className="absolute left-2 block h-5 w-5 text-gray-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="11" cy="11" r="8" className=""></circle>
-                  <line
-                    x1="21"
-                    y1="21"
-                    x2="16.65"
-                    y2="16.65"
-                    className=""
-                  ></line>
-                </svg>
-                <input
-                  type="name"
-                  name="search"
-                  className="h-12 w-full border-b-gray-400 bg-transparent py-4 pl-12 text-sm outline-none focus:border-b-2"
-                  placeholder="Search by Order ID, Date, Customer"
+              <div className="relative flex w-[300px] max-w-2xl items-center">
+                {/* <Datepicker value={dateValue} onChange={handleValueChange} /> */}
+                <ReactDatePicker
+                  selected={dateValue}
+                  onChange={(date) => setDateValue(date)}
                 />
-              </form>
-
+              </div>
               <button
                 type="button"
                 className="relative mr-auto inline-flex cursor-pointer items-center rounded-full border border-gray-200 bg-white px-5 py-2 text-center text-sm font-medium text-gray-800 hover:bg-gray-100 focus:shadow sm:mr-0"
+                onClick={() => handleFilteringDatabyDate()}
               >
                 <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
                 <svg

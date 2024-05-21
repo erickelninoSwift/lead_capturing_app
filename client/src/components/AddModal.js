@@ -108,7 +108,11 @@ const AddModal = ({ setAddleadModal }) => {
             />
           </label>
         </div>
-
+        {customError && (
+          <p className="text-sm h-[35px] w-[90%] mx-auto flex justify-center items-center rounded-md bg-red-400 text-red-900">
+            {customError}
+          </p>
+        )}
         <div className="border-t flex justify-end pt-6 space-x-4">
           <button
             type="button"
@@ -121,15 +125,10 @@ const AddModal = ({ setAddleadModal }) => {
           <button
             type="button"
             className="px-6 py-2 rounded-md text-white text-sm border-none outline-none bg-blue-600 hover:bg-blue-700 active:bg-blue-600"
-            onClick={() => handleAddmemeber()}
+            onClick={(e) => handleAddmemeber(e)}
           >
             Add
           </button>
-          {customError && (
-            <p className="text-sm h-[40px] w-[100%] flex justify-center items-center rounded-md bg-red-400 text-red-900">
-              {customError}
-            </p>
-          )}
         </div>
       </div>
     </div>
