@@ -3,10 +3,14 @@ const bcrypt = require("bcrypt");
 const User = require("../model/UserModel");
 
 const saltRounds = 10;
+
+// Hashing our password using this fucntion
+// ==========================================
 const myhashmyPassword = (myPlaintextPassword) => {
   const salt = bcrypt.genSaltSync(saltRounds);
   return bcrypt.hashSync(myPlaintextPassword, salt);
 };
+// =======================================
 
 const LoginController = async (request, response) => {
   const { email, password } = request.body;
@@ -43,7 +47,7 @@ const LoginController = async (request, response) => {
     });
   } catch (error) {
     response.json({
-      detail: "failed to connect tto server",
+      detail: "failed to connect to server",
     });
   }
 };
@@ -77,7 +81,7 @@ const SignupController = async (request, response) => {
       });
   } catch (error) {
     return response.json({
-      detail: error,
+      detail: "Failed to connect to server",
     });
   }
 };
