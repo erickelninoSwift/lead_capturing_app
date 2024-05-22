@@ -23,10 +23,12 @@ const LoginPage = ({ setSignInnow }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMessage("");
+    // Check if login fields are not empty
     if (!email || !password) {
       setErrorMessage("Please provide all details");
       return setTimeout(() => setErrorMessage(""), 3000);
     }
+
     const response = await fetch(`http://localhost:8080/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
