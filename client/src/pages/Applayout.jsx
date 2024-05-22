@@ -4,9 +4,11 @@ import { Outlet } from "react-router-dom";
 
 const Applayout = () => {
   return (
-    <div className="m-[50px]">
+    <>
+      <Navbar />
       <Outlet />
-    </div>
+      <Footer />
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import TableRow from "../components/Table/TableRow";
 import { useCookies } from "react-cookie";
+import { formatDate } from "../utils/dateformater";
 import Modal from "../components/Modal";
 import DeleteModal from "../components/DeleteModal";
 import AddModal from "../components/AddModal";
@@ -8,15 +9,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.module.css";
 import { FaCalendarAlt } from "react-icons/fa";
-// import { formatDate } from "../utils/dateformater";
 
-export const formatDate = (value) => {
-  let date = new Date(value);
-  const day = date.toLocaleString("default", { day: "2-digit" });
-  const month = date.toLocaleString("default", { month: "short" });
-  const year = date.toLocaleString("default", { year: "numeric" });
-  return day + "-" + month + "-" + year;
-};
 const AdminPage = () => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
   const Authtoken = cookies.AuthToken;
@@ -51,21 +44,6 @@ const AdminPage = () => {
       setAllLeads(allDataFetched.data);
     }
   };
-
-  // const handleFilteringDatabyDate = async () => {
-  //   if (!dateValue) {
-  //     return;
-  //   }
-  //   const response = await fetch(
-  //     `http://localhost:8080/leads?startDate=${formatDate(dateValue)}`
-  //   );
-  //   const allDataFetched = await response.json();
-  //   if (allDataFetched.detail) {
-  //     setCustomErro(allDataFetched.detail);
-  //   } else {
-  //     setAllLeads(allDataFetched.data);
-  //   }
-  // };
 
   const handleFilteringDatabyDate = async () => {
     if (!value.startDate || !value.endDate) {
@@ -389,3 +367,18 @@ export default AdminPage;
         </table>
       </div> */
 }
+
+// const handleFilteringDatabyDate = async () => {
+//   if (!dateValue) {
+//     return;
+//   }
+//   const response = await fetch(
+//     `http://localhost:8080/leads?startDate=${formatDate(dateValue)}`
+//   );
+//   const allDataFetched = await response.json();
+//   if (allDataFetched.detail) {
+//     setCustomErro(allDataFetched.detail);
+//   } else {
+//     setAllLeads(allDataFetched.data);
+//   }
+// };
