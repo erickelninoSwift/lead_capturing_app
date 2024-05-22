@@ -122,18 +122,11 @@ const AdminPage = () => {
             <div className="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row sm:space-y-0">
               <div className="relative flex w-[300px] max-w-2xl items-center">
                 <Datepicker value={value} onChange={handleValueChange} />
-                {/* <label className="flex gap-1 justify-center items-center">
-                  <ReactDatePicker
-                    selected={dateValue}
-                    onChange={(date) => setDateValue(date)}
-                  />
-                  <FaCalendarAlt size={24} />
-                </label> */}
               </div>
               <div className="flex gap-3 justify-center items-center">
                 <button
                   type="button"
-                  className="relative mr-auto inline-flex cursor-pointer items-center rounded-full border border-gray-200 bg-white px-5 py-2 text-center text-sm font-medium text-gray-800 hover:bg-gray-100 focus:shadow sm:mr-0"
+                  className="relative mr-[10px] inline-flex cursor-pointer items-center rounded-full border border-gray-200 bg-white px-5 py-2 text-center text-sm font-medium text-gray-800 hover:bg-gray-100 focus:shadow sm:mr-0"
                   onClick={() => handleFilteringDatabyDate()}
                 >
                   <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-red-500"></span>
@@ -151,16 +144,16 @@ const AdminPage = () => {
                       d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
                     />
                   </svg>
-                  Filter
+                  Filter by Date
                 </button>
                 <button
+                  className="text-[10px] shadow-red-900 text-white h-[20px] w-[100px] bg-red-500 rounded-lg "
                   onClick={() => {
-                    // setDateValue(null);
                     setValue({ startDate: null, endDate: null });
                     fetchAllLeads();
                   }}
                 >
-                  Reset
+                  Reset filter
                 </button>
               </div>
             </div>
@@ -226,7 +219,41 @@ const AdminPage = () => {
           </div>
         </div>
       </div>
-      {/* <div className="flex justify-center items-center mt-[10px] h-[700px] mx-auto w-[1040px] overflow-hidden">
+
+      {openModal && (
+        <Modal
+          buttonModal={setOpenmodal}
+          mode={modalUpdate}
+          data={dataToview}
+          dataToupdate={dataToupdate}
+          setDatatoUpdate={setDatatoUpdate}
+        />
+      )}
+      {openDeleteModal && (
+        <DeleteModal
+          setOpenModal={setOpenDeleteModal}
+          data={dataTodelete}
+          setDatatodelete={setDatatodelete}
+        />
+      )}
+      {addLeadModal && <AddModal setAddleadModal={setAddleadModal} />}
+    </>
+  );
+};
+
+export default AdminPage;
+{
+  /* <label className="flex gap-1 justify-center items-center">
+                  <ReactDatePicker
+                    selected={dateValue}
+                    onChange={(date) => setDateValue(date)}
+                  />
+                  <FaCalendarAlt size={24} />
+                </label> */
+}
+
+{
+  /* <div className="flex justify-center items-center mt-[10px] h-[700px] mx-auto w-[1040px] overflow-hidden">
         <table className="border-collapse w-full">
           <thead>
             <tr>
@@ -293,8 +320,10 @@ const AdminPage = () => {
             </tr>
           </tbody>
         </table>
-      </div> */}
-      {/* <div className="flex justify-center items-center mt-[10px] h-[700px] mx-auto w-[1040px] overflow-hidden">
+      </div> */
+}
+{
+  /* <div className="flex justify-center items-center mt-[10px] h-[700px] mx-auto w-[1040px] overflow-hidden">
         <table className="min-w-full bg-white font-[sans-serif]">
           <thead className="bg-gray-100 whitespace-nowrap">
             <tr>
@@ -358,26 +387,5 @@ const AdminPage = () => {
             </tr>
           </tbody>
         </table>
-      </div> */}
-      {openModal && (
-        <Modal
-          buttonModal={setOpenmodal}
-          mode={modalUpdate}
-          data={dataToview}
-          dataToupdate={dataToupdate}
-          setDatatoUpdate={setDatatoUpdate}
-        />
-      )}
-      {openDeleteModal && (
-        <DeleteModal
-          setOpenModal={setOpenDeleteModal}
-          data={dataTodelete}
-          setDatatodelete={setDatatodelete}
-        />
-      )}
-      {addLeadModal && <AddModal setAddleadModal={setAddleadModal} />}
-    </>
-  );
-};
-
-export default AdminPage;
+      </div> */
+}
