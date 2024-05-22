@@ -69,7 +69,7 @@ const LeadCaputing = () => {
   };
 
   return (
-    <div className="w-screen flex justify-center items-center h-[100%] bg-gray-50">
+    <div className="w-screen flex justify-center items-center h-[100%] bg-gray-200">
       <div className="flex justify-center h-[700px] w-screen items-center overflow-hidden px-2">
         <div className="">
           <div className="sm:w-[38rem] mx-auto my-10 overflow-hidden rounded-2xl bg-white shadow-lg sm:max-w-lg">
