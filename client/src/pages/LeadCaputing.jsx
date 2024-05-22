@@ -74,7 +74,7 @@ const LeadCaputing = () => {
         <div className="">
           <div className="shadow-blue-gray-500 sm:w-[38rem] mx-auto my-10 overflow-hidden rounded-2xl bg-white shadow-lg sm:max-w-lg">
             <div className="bg-blue-800 px-10 py-10 text-center text-white">
-              <p className="font-serif text-2xl font-semibold tracking-wider">
+              <p className="text-2xl font-semibold tracking-wider">
                 Lead Capturing App
               </p>
               <p className="text-center text-blue-100">
