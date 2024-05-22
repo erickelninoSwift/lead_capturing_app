@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { useCookies } from "react-cookie";
+// import { useCookies } from "react-cookie";
+import { UserContext } from "../Context/UserContext";
 const Navbar = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(null);
-  const Authenticated = cookies.AuthToken;
+  // const [cookies, setCookie, removeCookie] = useCookies(null);
 
+  const { removeCookie, cookies, Authenticated } = useContext(UserContext);
+  // const Authenticated = cookies.AuthToken;
   const logout = () => {
     removeCookie("Email");
     removeCookie("AuthToken");
@@ -73,7 +75,7 @@ const Navbar = () => {
               )}
               {Authenticated && (
                 <Link
-                  className="block py-2 px-3 text-gray-900 text-lg rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                  className="block py-2 px-3 text-gray-900 text-lg  rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                   onClick={() => logout()}
                 >
                   Logout

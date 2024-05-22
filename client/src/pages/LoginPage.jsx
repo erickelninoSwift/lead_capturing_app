@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import React, { useState, useContext } from "react";
+import { UserContext } from "../Context/UserContext";
 import { useNavigate } from "react-router-dom";
 const LoginPage = ({ setSignInnow }) => {
+  const { setCookie } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [cookies, setCookie, removeCookie] = useCookies(null);
   const [message, setMessage] = useState("");
   const [errorMesage, setErrorMessage] = useState("");
   const navigate = useNavigate();

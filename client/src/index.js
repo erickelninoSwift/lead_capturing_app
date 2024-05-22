@@ -4,13 +4,15 @@ import "./index.css";
 import App from "./App";
 import { ThemeProvider } from "@material-tailwind/react";
 import { BrowserRouter } from "react-router-dom";
-
+import { UserContextProvider } from "./Context/UserContext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider>
-          <App />
+        <UserContextProvider>
+          <App />
+        </UserContextProvider>
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import TableRow from "../components/Table/TableRow";
-import { useCookies } from "react-cookie";
 import { formatDate } from "../utils/dateformater";
 import Modal from "../components/Modal";
 import DeleteModal from "../components/DeleteModal";
@@ -9,10 +8,10 @@ import Datepicker from "react-tailwindcss-datepicker";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.module.css";
 import { FaCalendarAlt } from "react-icons/fa";
-
+import { UserContext } from "../Context/UserContext";
 const AdminPage = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(null);
-  const Authtoken = cookies.AuthToken;
+  const { email, AuthToken } = useContext(UserContext);
+
   const [openModal, setOpenmodal] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -47,7 +46,6 @@ const AdminPage = () => {
 
   const handleFilteringDatabyDate = async () => {
     if (!value.startDate || !value.endDate) {
-      console.log("we not good");
       return;
     }
     const response = await fetch(
@@ -64,10 +62,10 @@ const AdminPage = () => {
   };
 
   useEffect(() => {
-    if (Authtoken) {
+    if (AuthToken) {
       fetchAllLeads();
     }
-  }, [openModal, modalUpdate, openDeleteModal, addLeadModal]);
+  }, [modalUpdate, openDeleteModal, addLeadModal]);
 
   return (
     <>
@@ -75,7 +73,7 @@ const AdminPage = () => {
         <h1 className="mt-20 mb-10 ml-5 text-2xl font-bold text-gray-900">
           Leads Management
         </h1>
-        <div className="bg-white py-2 px-3">
+        <div className="bg-white py-2 px-3 flex justify-between items-center">
           <svg
             width="40px"
             height="40px"
@@ -92,6 +90,11 @@ const AdminPage = () => {
               fill="#1C274C"
             />
           </svg>
+          <div className="h-[20px] shadow-blue-gray-800 w-[200px] bg-gray-100 rounded-md flex justify-center items-center">
+            <p className="font-semibold text-black text-[10px]">
+              Welcome , {email}
+            </p>
+          </div>
         </div>
       </div>
       <div className="w-screen bg-gray-100">
@@ -185,12 +188,12 @@ const AdminPage = () => {
               </tbody>
             </table>
             {!leads && (
-              <p className="text-sm h-[60px] w-full mx-auto flex justify-center items-center rounded-md bg-red-400 text-red-900">
-                "No record found at this moments"
+              <p className="text-sm h-[60px] w-full mx-auto flex justify-center items-center rounded-md bg-red-200 text-red-700">
+                NO RECORD FOUND
               </p>
             )}
             {customError && (
-              <p className="text-sm h-[60px] w-full mx-auto flex justify-center items-center rounded-md bg-red-400 text-red-900">
+              <p className="text-sm h-[60px] w-full mx-auto flex justify-center items-center rounded-md bg-red-200 text-red-700">
                 {customError} on this specific date
               </p>
             )}

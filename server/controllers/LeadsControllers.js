@@ -9,7 +9,6 @@ const getAllLeads = async (request, response) => {
     customQuery.createdAt = { $gte: startDate, $lte: endOfDate };
   }
 
-  console.log(customQuery ? true : false);
   try {
     const Allleads = await Lead.find(customQuery ? customQuery : {}).sort(
       "createdAt"

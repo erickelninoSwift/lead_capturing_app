@@ -50,9 +50,7 @@ const DeleteModal = ({ setOpenModal, data, setDatatodelete }) => {
               data-original="#000000"
             />
           </svg>
-          <h4 className="text-lg font-semibold mt-6">
-            Are you sure you want to delete it?
-          </h4>
+          <h4 className="text-lg font-semibold mt-6">Are you sure you ?</h4>
         </div>
 
         <div className="text-center space-x-4">

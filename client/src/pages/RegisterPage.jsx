@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
 
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../Context/UserContext";
 const RegisterPage = ({ setSignInnow }) => {
   const [email, setEmail] = useState("");
-  const [cookies, setCookie, removeCookie] = useCookies(null);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [errorMesage, setErrorMessage] = useState("");
+  const { setCookie } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleEmail = (e) => {
