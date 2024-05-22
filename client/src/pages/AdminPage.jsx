@@ -116,7 +116,7 @@ const AdminPage = () => {
           </svg>
         </div>
       </div>
-      <div className="w-screen bg-gray-50">
+      <div className="w-screen bg-gray-100">
         <div className="mx-auto max-w-screen-xl px-2 py-10">
           <div className="mt-4 w-full">
             <div className="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row sm:space-y-0">
@@ -166,7 +166,7 @@ const AdminPage = () => {
             </div>
           </div>
 
-          <div className="mt-6 overflow-hidden rounded-xl bg-white px-6 shadow lg:px-4">
+          <div className="shadow-blue-gray-800 p-3 mt-6 overflow-hidden rounded-xl bg-white px-6 shadow lg:px-4">
             <table className="min-w-full border-collapse border-spacing-y-2 border-spacing-x-2">
               <thead className="hidden border-b lg:table-header-group">
                 <tr className="">

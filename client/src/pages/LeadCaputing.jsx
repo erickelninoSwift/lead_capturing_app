@@ -72,7 +72,7 @@ const LeadCaputing = () => {
     <div className="w-screen flex justify-center items-center h-[100%] bg-gray-200">
       <div className="flex justify-center h-[700px] w-screen items-center overflow-hidden px-2">
         <div className="">
-          <div className="sm:w-[38rem] mx-auto my-10 overflow-hidden rounded-2xl bg-white shadow-lg sm:max-w-lg">
+          <div className="shadow-blue-gray-500 sm:w-[38rem] mx-auto my-10 overflow-hidden rounded-2xl bg-white shadow-lg sm:max-w-lg">
             <div className="bg-blue-800 px-10 py-10 text-center text-white">
               <p className="font-serif text-2xl font-semibold tracking-wider">
                 Lead Capturing App
