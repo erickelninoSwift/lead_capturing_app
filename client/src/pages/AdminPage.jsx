@@ -28,7 +28,7 @@ const AdminPage = () => {
   const [dataToupdate, setDatatoUpdate] = useState(null);
   const [leads, setAllLeads] = useState([]);
   const [addLeadModal, setAddleadModal] = useState(false);
-  const [dateValue, setDateValue] = useState(new Date());
+  // const [dateValue, setDateValue] = useState(new Date());
   const [customError, setCustomErro] = useState(null);
   const [value, setValue] = useState({
     startDate: null,
@@ -72,8 +72,6 @@ const AdminPage = () => {
       console.log("we not good");
       return;
     }
-
-    console.log("we good");
     const response = await fetch(
       `http://localhost:8080/leads?startDate=${formatDate(
         startDate
@@ -157,7 +155,7 @@ const AdminPage = () => {
                 </button>
                 <button
                   onClick={() => {
-                    setDateValue(null);
+                    // setDateValue(null);
                     setValue({ startDate: null, endDate: null });
                     fetchAllLeads();
                   }}
