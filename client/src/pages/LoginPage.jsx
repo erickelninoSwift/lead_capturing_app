@@ -104,6 +104,10 @@ const LoginPage = ({ setSignInnow }) => {
             Login
           </button>
         </div>
+        <p className="text-sm h-[25px] w-auto flex justify-center items-center my-2 rounded-md bg-red-200 text-red-700">
+          email : <span className="mx-2 text-lg">admin</span> password:{" "}
+          <span className="mx-2 text-lg">123</span>
+        </p>
         <p className="text-center text-gray-600">
           Don't have an account?
           <a
