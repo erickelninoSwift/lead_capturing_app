@@ -20,19 +20,18 @@ const AdminPage = () => {
   const [dataToupdate, setDatatoUpdate] = useState(null);
   const [leads, setAllLeads] = useState([]);
   const [addLeadModal, setAddleadModal] = useState(false);
-  const [dateValue, setDateValue] = useState(new Date());
-  const [dateValue1, setDateValue1] = useState(new Date());
+  // const [dateValue, setDateValue] = useState(new Date());
+  // const [dateValue1, setDateValue1] = useState(new Date());
   const [customError, setCustomErro] = useState(null);
-  // const [value, setValue] = useState({
-  //   startDate: null,
-  //   endDate: null,
-  // });
-  // const { startDate, endDate } = value;
-  // const handleValueChange = (newValue) => {
-  //   setValue(() => {
-  //     return newValue;
-  //   });
-  // };
+  const [value, setValue] = useState({
+    startDate: null,
+    endDate: null,
+  });
+  const handleValueChange = (newValue) => {
+    setValue(() => {
+      return newValue;
+    });
+  };
 
   const fetchAllLeads = async () => {
     const response = await fetch(`http://localhost:8080/leads`);
@@ -46,20 +45,11 @@ const AdminPage = () => {
   };
 
   const handleFilteringDatabyDate = async () => {
-    if (!dateValue) {
-      return;
-    }
-    if (dateValue1 < dateValue) {
-      setCustomErro("Date range format is incorrect");
-      setTimeout(() => {
-        setCustomErro(null);
-      }, 3000);
+    if (!value.startDate || !value.endDate) {
       return;
     }
     const response = await fetch(
-      `http://localhost:8080/leads?startDate=${dateValue
-        .toISOString()
-        .slice(0, 10)}&endOfDate=${dateValue1.toISOString().slice(0, 10)}`
+      `http://localhost:8080/leads?startDate=${value.startDate}&endOfDate=${value.endDate}`
     );
     const allDataFetched = await response.json();
     if (allDataFetched.detail) {
@@ -68,23 +58,6 @@ const AdminPage = () => {
       setAllLeads(allDataFetched.data);
     }
   };
-
-  // const handleFilteringDatabyDate = async () => {
-  //   if (!value.startDate || !value.endDate) {
-  //     return;
-  //   }
-  //   const response = await fetch(
-  //     `http://localhost:8080/leads?startDate=${formatDate(
-  //       startDate
-  //     )}&endOfDate=${formatDate(endDate)}`
-  //   );
-  //   const allDataFetched = await response.json();
-  //   if (allDataFetched.detail) {
-  //     setCustomErro(allDataFetched.detail);
-  //   } else {
-  //     setAllLeads(allDataFetched.data);
-  //   }
-  // };
 
   useEffect(() => {
     if (AuthToken) {
@@ -127,12 +100,11 @@ const AdminPage = () => {
           <div className="mt-4 w-full">
             <div className="flex w-full flex-col items-center justify-between space-y-2 sm:flex-row sm:space-y-0">
               <div className="relative flex w-[300px] max-w-2xl items-center gap-5">
-                <label className="flex gap-1 justify-center items-center">
+                {/* <label className="flex gap-1 justify-center items-center">
                   <ReactDatePicker
                     selected={dateValue}
                     onChange={(date) => setDateValue(date)}
                   />
-                  {/* <FaCalendarAlt size={24} /> */}
                 </label>
                 <span className="mx-2 font-semibold text-lg">To</span>
                 <label className="flex gap-1 justify-center items-center">
@@ -141,8 +113,8 @@ const AdminPage = () => {
                     onChange={(date) => setDateValue1(date)}
                   />
                   <FaCalendarAlt size={24} />
-                </label>
-                {/* <Datepicker value={value} onChange={handleValueChange} /> */}
+                </label> */}
+                <Datepicker value={value} onChange={handleValueChange} />
               </div>
               <div className="flex gap-3 justify-center items-center">
                 <button
@@ -170,9 +142,9 @@ const AdminPage = () => {
                 <button
                   className="text-[10px] shadow-red-900 text-white h-[20px] w-[100px] bg-red-500 rounded-lg "
                   onClick={() => {
-                    // setValue({ startDate: null, endDate: null });
-                    setDateValue(new Date());
-                    setDateValue1(new Date());
+                    setValue({ startDate: null, endDate: null });
+                    // setDateValue(new Date());
+                    // setDateValue1(new Date());
                     fetchAllLeads();
                   }}
                 >
@@ -412,3 +384,27 @@ export default AdminPage;
         </table>
       </div> */
 }
+
+// const handleFilteringDatabyDate = async () => {
+//   if (!dateValue) {
+//     return;
+//   }
+//   if (dateValue1 < dateValue) {
+//     setCustomErro("Date range format is incorrect");
+//     setTimeout(() => {
+//       setCustomErro(null);
+//     }, 3000);
+//     return;
+//   }
+//   const response = await fetch(
+//     `http://localhost:8080/leads?startDate=${dateValue
+//       .toISOString()
+//       .slice(0, 10)}&endOfDate=${dateValue1.toISOString().slice(0, 10)}`
+//   );
+//   const allDataFetched = await response.json();
+//   if (allDataFetched.detail) {
+//     setCustomErro(allDataFetched.detail);
+//   } else {
+//     setAllLeads(allDataFetched.data);
+//   }
+// };

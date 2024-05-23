@@ -5,16 +5,16 @@ const getAllLeads = async (request, response) => {
 
   let customQuery = {};
 
-  if (startDate) {
-    customQuery.createdAt = startDate;
-  }
-
   if (startDate && endOfDate) {
     customQuery.createdAt = {
       $gte: startDate,
       $lte: endOfDate,
     };
   }
+
+  // if (new Date(startDate) === new Date(startDate)) {
+  //   customQuery.startDate = startDate;
+  // }
   console.log(customQuery);
   try {
     const Allleads = await Lead.find(customQuery ? customQuery : {}).sort(
@@ -37,7 +37,7 @@ const getAllLeads = async (request, response) => {
 
 const CreateLeadController = async (request, response) => {
   const { name, email, contact, date } = request.body;
-  console.log("backend date", date);
+
   if (!name || !email || !contact) {
     return response.json({
       detail: "Make sure all data are provided",

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-
+import React, { useState, useContext } from "react";
+import { UserContext } from "../Context/UserContext";
 const DeleteModal = ({ setOpenModal, data, setDatatodelete }) => {
   const [customError, setCustomError] = useState("");
+  const { leadToDelete, setLeadTodelete } = useContext(UserContext);
   const handleDeleteData = async () => {
     const response = await fetch(`http://localhost:8080/leads/${data}`, {
       method: "DELETE",
@@ -50,7 +51,9 @@ const DeleteModal = ({ setOpenModal, data, setDatatodelete }) => {
               data-original="#000000"
             />
           </svg>
-          <h4 className="text-lg font-semibold mt-6">Are you sure you ?</h4>
+          <h4 className="text-lg font-semibold mt-6">
+            Are you sure you want to delete {leadToDelete} ?
+          </h4>
         </div>
 
         <div className="text-center space-x-4">
@@ -64,7 +67,10 @@ const DeleteModal = ({ setOpenModal, data, setDatatodelete }) => {
           <button
             type="button"
             className="px-6 py-2.5 rounded-md text-white text-sm font-semibold border-none outline-none bg-red-600 hover:bg-red-700 active:bg-red-600"
-            onClick={() => handleDeleteData()}
+            onClick={() => {
+              handleDeleteData();
+              setLeadTodelete(null);
+            }}
           >
             Delete
           </button>

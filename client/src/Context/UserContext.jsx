@@ -5,6 +5,8 @@ export const UserContext = createContext({
   cookies: null,
   Authenticated: null,
   AuthToken: null,
+  leadToDelete: null,
+  setLeadTodelete: () => {},
   setCookie: () => {},
   removeCookie: () => {},
 });
@@ -12,6 +14,7 @@ export const UserContext = createContext({
 export const UserContextProvider = ({ children }) => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
   const [userEmail, setUserEmail] = useState(null);
+  const [leadToDelete, setLeadTodelete] = useState(null);
   const Authenticated = cookies.AuthToken;
   const AuthToken = cookies.AuthToken;
   const value = {
@@ -21,12 +24,14 @@ export const UserContextProvider = ({ children }) => {
     removeCookie,
     Authenticated,
     AuthToken,
+    leadToDelete,
+    setLeadTodelete,
   };
   useEffect(() => {
     setUserEmail(() => {
       return cookies.Email;
     });
   }, [cookies]);
-  console.log(`Email is : ${userEmail}`);
+
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

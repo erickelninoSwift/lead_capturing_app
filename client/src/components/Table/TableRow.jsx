@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useContext } from "react";
+import { UserContext } from "../../Context/UserContext";
 const TableRow = ({
   lead,
   buttonModal,
@@ -10,7 +10,7 @@ const TableRow = ({
   setDatatoUpdate,
 }) => {
   const { createdAt, name, email, phone, _id } = lead;
-
+  const { setLeadTodelete } = useContext(UserContext);
   const handleEdit = () => {
     buttonModal(true);
     modalUpdateorView(true);
@@ -26,6 +26,7 @@ const TableRow = ({
   const handleDelete = () => {
     setOpenModal(true);
     setDatatodelete(_id);
+    setLeadTodelete(() => name);
   };
   return (
     <>
