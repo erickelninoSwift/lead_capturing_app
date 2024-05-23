@@ -41,7 +41,7 @@ const LeadCaputing = () => {
         name,
         email,
         contact,
-        date: formatDate(new Date()),
+        date: new Date().toISOString().slice(0, 10),
       }),
     });
 

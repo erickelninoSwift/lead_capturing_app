@@ -5,10 +5,17 @@ const getAllLeads = async (request, response) => {
 
   let customQuery = {};
 
-  if (startDate && endOfDate) {
-    customQuery.createdAt = { $gte: startDate, $lte: endOfDate };
+  if (startDate) {
+    customQuery.createdAt = startDate;
   }
 
+  if (startDate && endOfDate) {
+    customQuery.createdAt = {
+      $gte: startDate,
+      $lte: endOfDate,
+    };
+  }
+  console.log(customQuery);
   try {
     const Allleads = await Lead.find(customQuery ? customQuery : {}).sort(
       "createdAt"
@@ -78,8 +85,8 @@ const DeleteLeadController = async (request, response) => {
 };
 const UpdateLeadController = async (request, response) => {
   const { id } = request.params;
-  const { name, email, phone } = request.body;
-  const query = { name, email, phone };
+  const { name, email, contact } = request.body;
+  const query = { name, email, phone: contact };
   try {
     const updateRecord = await Lead.findOneAndUpdate({ _id: id }, query, {
       new: true,
