@@ -15,7 +15,7 @@ const getAllLeads = async (request, response) => {
   // if (new Date(startDate) === new Date(startDate)) {
   //   customQuery.startDate = startDate;
   // }
-  console.log(customQuery);
+
   try {
     const Allleads = await Lead.find(customQuery ? customQuery : {}).sort(
       "createdAt"
@@ -94,7 +94,7 @@ const UpdateLeadController = async (request, response) => {
     });
     if (!updateRecord) {
       return response.json({
-        message: "record was not found",
+        detail: "Failed to Update Record",
       });
     }
     await updateRecord.save();
@@ -102,8 +102,9 @@ const UpdateLeadController = async (request, response) => {
       data: updateRecord,
     });
   } catch (error) {
+    console.log(error);
     response.json({
-      detail: error,
+      detail: `${error.valueType} found in wrong fields`,
     });
   }
 };

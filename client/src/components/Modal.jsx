@@ -6,7 +6,7 @@ const Modal = ({ buttonModal, mode, data, dataToupdate, setDatatoUpdate }) => {
   const [name, setName] = useState(mode && currentData.name);
   const [email, setEmail] = useState(mode && currentData.email);
   const [contact, setContact] = useState(mode && currentData.phone);
-  const [customError, setCustomError] = useState("");
+  const [customError, setCustomError] = useState(null);
   const handleAction = async (e) => {
     e.preventDefault();
     if (mode) {
@@ -143,8 +143,14 @@ const Modal = ({ buttonModal, mode, data, dataToupdate, setDatatoUpdate }) => {
                 />
               </label>
             </div>
+            {customError && (
+              <p className="text-sm h-[35px] w-[90%] mx-auto flex justify-center items-center rounded-md bg-red-400 text-red-900">
+                {customError}
+              </p>
+            )}
           </>
         )}
+
         <div className="border-t flex justify-end pt-6 space-x-4">
           {mode && (
             <button
