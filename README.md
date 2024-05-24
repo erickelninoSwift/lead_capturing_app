@@ -38,7 +38,7 @@ cd lead_capturing_app
 *To Install Dependencies): 
 
 ```
-run install-all
+npm run install-all
 ```
 
 3.To Start the Client and the Server : you can simply run this command
