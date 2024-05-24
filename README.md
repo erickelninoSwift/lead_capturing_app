@@ -17,3 +17,16 @@ Part 2:
 1. Create a front-end for capturing leads using the endpoints created in part 1
 
 2. Create a report that allows us to display all leads captured on a given day or for a range of days.
+
+# Install and run the project
+
+1.Open your terminal or command prompt and navigate to the Desktop or where you want to clone the project. Then, use the git clone command followed by the repository URL.
+: "git clone https://github.com/erickelninoSwift/lead_capturing_app.git "
+
+2.Install Dependencies: Navigate into the cloned project directory using cd command and then install the dependencies required for both the server (Node.js/Express) and client (React.js) applications. Typically, you'll find package.json outside of the server and client directories.
+
+-(To Navigate into the cloned project directory) Run: cd lead_capturing_app
+-(To Install Dependencies) Run : npm run install-all
+
+3.To Start the Client and the Server : you can simply run this command
+-(To Start Both the client and Server at the same time) Run : npm run all
